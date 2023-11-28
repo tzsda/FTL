@@ -1,3 +1,3 @@
 # Follow the leader
 
-This repository brings together all the simulation carried out during my intership.
+This repository brings together all the simulations carried out during my intership.
