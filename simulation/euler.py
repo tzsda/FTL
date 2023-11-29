@@ -28,24 +28,3 @@ def f_FTL(data, t, V=30, alpha_c=10, alpha_v=40, alpha_inf=60):
     temp[temp < 0] = 0
     # print(temp)
     return V * temp
-
-
-if __name__ == "__main__":
-    INITIAL = np.array([3 * j for j in range(8)])
-    STEP = 0.2
-    DURATION = 10
-
-    parameters = {"V": 30, "alpha_c": 10, "alpha_v": 40, "alpha_inf": 60}
-
-    m = EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, f_FTL, parameters)
-
-    for i in range(len(INITIAL)):
-        plt.scatter(
-            [j * STEP for j in range(m.iter_max + 1)],
-            r[i],
-            marker="."
-        )
-    plt.ylabel("Distance travelled")
-    plt.xlabel("Time")
-    plt.show()
