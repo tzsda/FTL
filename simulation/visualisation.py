@@ -24,16 +24,15 @@ def anim(data, step, output=None):
 
     ax.set_xlabel("Distance")
 
-    (graph,) = plt.plot([], [], "o")
-    time_text = ax.text(0, .8, '', fontsize=15)
-
+    (graph,) = plt.plot([], [], ".")
+    time_text = ax.text(0, 0.8, "", fontsize=15)
 
     y_axis = [0 for i in range(len(data[..., 0]))]
 
     def animate(i):
         graph.set_data(data[..., i], y_axis)
         time_text.set_text("Timestamp: " + str(round(step * i, 1)))
-        
+
         return graph, time_text
 
     ani = animation.FuncAnimation(
