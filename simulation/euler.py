@@ -1,7 +1,6 @@
 import math
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class EulerMethod:
@@ -49,7 +48,8 @@ def FTL_slowdown(
         to_end=np.array(
             [
                 min_alpha
-                + (alpha_inf - min_alpha) * (1 - math.exp(- rate * (t - max_time) ** 2))
+                + (alpha_inf - min_alpha) 
+                * (1 - math.exp(-rate * (t - max_time) ** 2))
             ]
         ),
     )

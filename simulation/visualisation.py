@@ -7,13 +7,14 @@ import matplotlib.animation as animation
 def classic_view(data, step, output=None):
     """Display position according to time"""
     for i in range(len(data[..., 0])):
-        plt.scatter([j * step for j in range(len(data[0]))], data[i], marker=".")
+        plt.plot([j * step for j in range(len(data[0]))], data[i])
     if output is None:
         plt.ylabel("Distance travelled")
         plt.xlabel("Time")
         plt.show()
     else:
         plt.savefig(output)
+        plt.clf()
 
 
 def anim(data, step, output=None):
@@ -36,7 +37,7 @@ def anim(data, step, output=None):
         return graph, time_text
 
     ani = animation.FuncAnimation(
-        fig, animate, repeat=True, frames=len(data[0]), interval=50
+        fig, animate, repeat=True, frames=len(data[0]), interval=step * 1000
     )
     if output is None:
         plt.show()
