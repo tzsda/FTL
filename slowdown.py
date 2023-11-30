@@ -58,7 +58,7 @@ def main_110():
     m = simu.EulerMethod(DURATION, STEP)
     r = m.compute(INITIAL, simu.FTL_slowdown, parameters)
 
-    visu.classic_view(r, STEP, "100.png")
+    visu.classic_view(r, STEP, "110.png")
 
     # visu.anim(r, STEP)
 
