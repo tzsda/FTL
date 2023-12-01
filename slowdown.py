@@ -2,65 +2,106 @@ import numpy as np
 
 import simulation.euler as simu
 import simulation.visualisation as visu
-import simulation.core as tools
+import simulation.utils as tools
+import simulation.ftl as ftl
 
 
 def main_130():
-    ALPHA_INF = 100
+    ALPHA_INF = 70
+
+    STEP = 0.2
+    DURATION = 100
+
+    MAX_VEL = 40
+    ALPHA_C = 3
+    ALPHA_V = 70
 
     INITIAL = np.array([ALPHA_INF * j for j in range(25)])
-    STEP = 0.2
-    DURATION = 50
 
-    MAX_VEL = 468
-    ALPHA_C = 10
-    ALPHA_V = 40
+    DIST_BRAKE = 500
+
 
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
         "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "max_time": 20,
-        "rate": tools.compute_brake_rate(MAX_VEL),
-        "min_alpha": tools.compute_alpha(MAX_VEL, MAX_VEL - 72, ALPHA_C, ALPHA_V)
+        "max_time": 10,
+        "rate": tools.compute_brake_rate(DIST_BRAKE),
+        "min_alpha": 55
     }
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, simu.FTL_slowdown, parameters)
+    r = m.compute(INITIAL, ftl.slowdown, parameters)
 
-    visu.classic_view(r, STEP, "130.png")
+    visu.classic_view(r, STEP)
+    #visu.classic_view(np.diff(r), STEP)
 
     # visu.anim(r, STEP)
 
 
 def main_110():
-    ALPHA_INF = 100
+    ALPHA_INF = 60
 
     INITIAL = np.array([ALPHA_INF * j for j in range(25)])
     STEP = 0.2
-    DURATION = 50
+    DURATION = 100
 
-    MAX_VEL = 396
-    ALPHA_C = 10
-    ALPHA_V = 40
+    MAX_VEL = 35
+    ALPHA_C = 3
+    ALPHA_V = 60
+
+    DIST_BRAKE = 500
 
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
         "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "max_time": 20,
-        "rate": tools.compute_brake_rate(MAX_VEL),
-        "min_alpha": tools.compute_alpha(MAX_VEL, MAX_VEL - 36, ALPHA_C, ALPHA_V)
+        "max_time": 10,
+        "rate": tools.compute_brake_rate(DIST_BRAKE),
+        "min_alpha": 47
     }
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, simu.FTL_slowdown, parameters)
+    r = m.compute(INITIAL, ftl.slowdown, parameters)
 
-    visu.classic_view(r, STEP, "110.png")
+    visu.classic_view(r, STEP, scale_y=[0, 3500])
 
     # visu.anim(r, STEP)
 
-main_130()
-main_110()
+
+def main_radar():
+    ALPHA_INF = 80
+
+    STEP = 0.2
+    DURATION = 150
+
+    MAX_VEL = 40
+    ALPHA_C = 3
+    ALPHA_V = 70
+
+    INITIAL = np.array([ALPHA_INF * j for j in range(25)])
+
+    parameters = {
+        "V": MAX_VEL,
+        "alpha_c": ALPHA_C,
+        "alpha_v": ALPHA_V,
+        "alpha_inf": ALPHA_INF,
+        "t_start": 10,
+        "t_end": 100,
+        "min_alpha": 53
+    }
+
+    m = simu.EulerMethod(DURATION, STEP)
+    r = m.compute(INITIAL, ftl.radar, parameters)
+
+    visu.classic_view(r, STEP)
+
+    # visu.anim(r, STEP)
+
+
+main_radar()
+
+# main_130()
+# main_110()

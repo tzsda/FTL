@@ -1,8 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 import simulation.euler as simu
 import simulation.visualisation as visu
+import simulation.ftl as ftl
 
 
 def main():
@@ -10,13 +10,10 @@ def main():
     STEP = 0.2
     DURATION = 70
 
-    parameters = {"V": 30, "alpha_c": 10, "alpha_v": 40, "alpha_inf": 60}
+    parameters = {"V": 16, "alpha_c": 3, "alpha_v": 30, "alpha_inf": 60}
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, simu.FTL_traffic_light, parameters)
-
-    # plt.plot([j * STEP for j in range(len(r[0]))], r[-1] -r[-2])
-    # plt.show()
+    r = m.compute(INITIAL, ftl.traffic_light, parameters)
 
     # visu.classic_view(r, STEP)
 
@@ -24,4 +21,3 @@ def main():
 
 
 main()
-
