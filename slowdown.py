@@ -9,7 +9,7 @@ import simulation.ftl as ftl
 def main_130():
     ALPHA_INF = 70
 
-    STEP = 0.2
+    STEP = 10
     DURATION = 100
 
     MAX_VEL = 40
@@ -20,7 +20,6 @@ def main_130():
 
     DIST_BRAKE = 500
 
-
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
@@ -28,23 +27,23 @@ def main_130():
         "alpha_inf": ALPHA_INF,
         "max_time": 10,
         "rate": tools.compute_brake_rate(DIST_BRAKE),
-        "min_alpha": 55
+        "min_alpha": 30,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
     r = m.compute(INITIAL, ftl.slowdown, parameters)
 
-    visu.classic_view(r, STEP)
-    #visu.classic_view(np.diff(r), STEP)
+    # visu.classic_view(r, STEP)
+    # visu.classic_view(np.diff(r), STEP)
 
-    # visu.anim(r, STEP)
+    visu.anim(r, STEP)
 
 
 def main_110():
     ALPHA_INF = 60
 
     INITIAL = np.array([ALPHA_INF * j for j in range(25)])
-    STEP = 0.2
+    STEP = 50
     DURATION = 100
 
     MAX_VEL = 35
@@ -60,7 +59,7 @@ def main_110():
         "alpha_inf": ALPHA_INF,
         "max_time": 10,
         "rate": tools.compute_brake_rate(DIST_BRAKE),
-        "min_alpha": 47
+        "min_alpha": 47,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
@@ -72,36 +71,35 @@ def main_110():
 
 
 def main_radar():
-    ALPHA_INF = 80
+    ALPHA_INF = 50
 
     STEP = 0.2
-    DURATION = 150
+    DURATION = 200
 
-    MAX_VEL = 40
+    MAX_VEL = 45
     ALPHA_C = 3
     ALPHA_V = 70
 
-    INITIAL = np.array([ALPHA_INF * j for j in range(25)])
+    INITIAL = np.array([ALPHA_INF * j for j in range(50)])
 
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
         "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "t_start": 10,
-        "t_end": 100,
-        "min_alpha": 53
+        "d_start": 3000,
+        "d_end": 4000,
+        "min_alpha": 30,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
     r = m.compute(INITIAL, ftl.radar, parameters)
 
-    visu.classic_view(r, STEP)
+    # visu.classic_view(r, STEP)
 
-    # visu.anim(r, STEP)
+    visu.anim(r, STEP)
 
 
 main_radar()
-
-# main_130()
-# main_110()
+main_130()
+main_110()

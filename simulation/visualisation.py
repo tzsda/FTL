@@ -56,7 +56,7 @@ def anim_roundabout(data, step, radius, output=None):
     plot_lim = radius + 10
     ax.set_xlim([-plot_lim, plot_lim])
     ax.set_ylim([-plot_lim, plot_lim])
-    ax.set_aspect('equal', adjustable='box')
+    ax.set_aspect("equal", adjustable="box")
 
     graph, = plt.plot([], [], ".")
     time_text = ax.text(-plot_lim, plot_lim, "", fontsize=10)
@@ -70,7 +70,7 @@ def anim_roundabout(data, step, radius, output=None):
         return graph, time_text
 
     ani = animation.FuncAnimation(
-        fig, animate, repeat=True, frames=len(data[0]), interval=step * 0.25
+        fig, animate, repeat=True, frames=len(data[0]), interval=0.05 / step
     )
     if output is None:
         plt.show()

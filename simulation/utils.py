@@ -15,6 +15,6 @@ def compute_brake_rate(brake_distance):
 def mod_radius(vector, radius, eps):
     sign = np.sign(vector)
     for j in range(len(vector)):
-        while vector[j] - 2 * np.pi * radius >= eps or vector[j] <= -eps: 
+        while vector[j] - 2 * np.pi * radius >= eps or vector[j] <= -eps:
             vector[j] += sign[j] * 2 * np.pi * radius
     return vector
