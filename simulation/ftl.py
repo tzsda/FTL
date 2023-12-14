@@ -50,10 +50,33 @@ def radar(
     """radar"""
     temp = np.ediff1d(data[..., t - 1], to_end=np.array([alpha_inf]))
 
+
     indexes = np.argwhere((data[..., t - 1] >= d_start) & (data[..., t - 1] <= d_end))
     for i in indexes.flatten():
         if temp[i] >= min_alpha:
             temp[i] = min_alpha
+
+    temp = 1 - np.exp(-(temp - alpha_c) / (alpha_v - alpha_c))
+    temp[temp < 0] = 0
+    return V * temp
+
+
+def accident(
+    data,
+    t,
+    V=30,
+    alpha_c=10,
+    alpha_v=40,
+    alpha_inf=60,
+    t_start=10,
+    t_end=100,
+    alpha_min=50,
+):
+    """accident"""
+    temp = np.ediff1d(data[..., t - 1], to_end=np.array([alpha_inf]))
+
+    if t >= t_start and t <=  t_end:
+        temp[-1] = alpha_min
 
     temp = 1 - np.exp(-(temp - alpha_c) / (alpha_v - alpha_c))
     temp[temp < 0] = 0
@@ -88,6 +111,6 @@ def roundabout(
         if temp[-1] > alpha_inf - eps:
             temp[-1] = alpha_inf
 
-    temp = 1 - np.exp(-(temp - alpha_c) / (alpha_v - alpha_c))
+    temp = 1 - np.exp(-(temp - alpha_c) / (alpha_v - alpha_c) )
     temp[temp < 0] = 0
     return V * temp

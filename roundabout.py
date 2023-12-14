@@ -58,7 +58,7 @@ def jami_1():
         INITIAL, ftl.roundabout, parameters, tools.mod_radius, callback_parameters
     )
 
-    visu.anim_roundabout(r, STEP, RADIUS)
+    visu.anim_roundabout(r, STEP, RADIUS, "jami1.mp4")
 
 
 def jami_2():
@@ -86,7 +86,7 @@ def jami_2():
         INITIAL, ftl.roundabout, parameters, tools.mod_radius, callback_parameters
     )
 
-    visu.anim_roundabout(r, STEP, RADIUS)
+    visu.anim_roundabout(r, STEP, RADIUS, "jami2.mp4")
 
 
 def jami_3():
@@ -97,15 +97,15 @@ def jami_3():
     DURATION = 100
 
     parameters = {
-        "V": 15,
+        "V": 10,
         "alpha_c": 3,
         "alpha_v": 8,
         "radius": RADIUS,
         "t_start": 10,
-        "t_end": 40,
-        "alpha_min": 3.1,
+        "t_end": 36,
+        "alpha_min": 0,
         "eps": 1e-4,
-        "alpha_inf": 13,
+        "alpha_inf": 3.1,
     }
     callback_parameters = {"eps": 1e-4, "radius": RADIUS}
 
@@ -117,6 +117,7 @@ def jami_3():
     visu.anim_roundabout(r, STEP, RADIUS)
 
 # main()
+
 # jami_1()
 # jami_2()
-# jami_3()
+jami_3()
