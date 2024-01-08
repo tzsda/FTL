@@ -6,148 +6,138 @@ import simulation.utils as tools
 import simulation.ftl as ftl
 
 
-def main_130():
-    ALPHA_INF = 70
+def traffic_jam():
+    N = 50
+    ALPHA_INF = 0
 
-    STEP = 10
-    DURATION = 100
+    STEP = 0.02
+    DURATION = 240
 
-    MAX_VEL = 40
-    ALPHA_C = 3
+    MAX_VEL = 42
+    ALPHA_C = 4
     ALPHA_V = 70
 
-    INITIAL = np.array([ALPHA_INF * j for j in range(25)])
-
-    DIST_BRAKE = 500
+    INITIAL = np.array([ALPHA_V * 2 * j for j in range(N)])
 
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
         "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "max_time": 10,
-        "rate": tools.compute_brake_rate(DIST_BRAKE),
-        "min_alpha": 30,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, ftl.slowdown, parameters)
+    r = m.compute(INITIAL, ftl.lead_constant, parameters)
 
-    # visu.classic_view(r, STEP)
-    # visu.classic_view(np.diff(r), STEP)
+    name = str(N) + "-"
+    for k, v in parameters.items():
+        name += str(k) + str(v) + "-"
 
-    visu.anim(r, STEP)
+    visu.classic_view(r, STEP, "position" + name + ".png")
+    visu.distance_view(r, STEP, "distance" + name + ".png")
+    visu.velocity_view(r, STEP, "velocity" + name + ".png")
 
 
-def main_110():
-    ALPHA_INF = 200
+def traffic_jam_10_cars():
+    N = 15
 
-    INITIAL = np.array([ALPHA_INF * j for j in range(25)])
-    STEP = 0.2
-    DURATION = 100
+    STEP = 0.02
+    DURATION = 45
 
-    MAX_VEL = 35
-    ALPHA_C = 3
-    ALPHA_V = 4
+    INITIAL = np.array([30 * 2 * j for j in range(N)])
 
-    DIST_BRAKE = 500
-
-    parameters = {
-        "V": MAX_VEL,
-        "alpha_c": ALPHA_C,
-        "alpha_v": ALPHA_V,
-        "alpha_inf": ALPHA_INF,
-        "max_time": 10,
-        "rate": tools.compute_brake_rate(DIST_BRAKE),
-        "min_alpha": 47,
-    }
+    parameters = {"V": 18, "alpha_c": 6, "alpha_v": 30, "alpha_inf": 0}
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, ftl.slowdown, parameters)
+    r = m.compute(INITIAL, ftl.lead_constant, parameters)
 
-    visu.classic_view(r, STEP, scale_y=[0, 3500])
+    name = str(N) + "-"
+    for k, v in parameters.items():
+        name += str(k) + str(v) + "-"
 
-    # visu.anim(r, STEP)
+    visu.position_versus_time_scatter(r, STEP, 10, "traffic-at-10-time" + name + ".png")
+    visu.classic_view(r, STEP, "position" + name + ".png")
+    visu.distance_view(r, STEP, "distance" + name + ".png")
+    # visu.velocity_view(r, STEP) #"velocity" + name + ".png")
 
 
-def main_radar():
-    ALPHA_INF = 70
+def huge_traffic_jam():
+    N = 1500
+    ALPHA_INF = 0
 
     STEP = 0.2
-    DURATION = 130
+    DURATION = 3600
 
-    MAX_VEL = 45
+    MAX_VEL = 57
     ALPHA_C = 6
-    ALPHA_V = 30
+    ALPHA_V = 70
 
-    INITIAL = np.array([ALPHA_INF * j for j in range(50)])
-
-    s_jam = INITIAL[-1] + 100
+    INITIAL = np.array([ALPHA_V * j for j in range(N)])
 
     parameters = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
         "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "d_start": INITIAL[-1]+ 100,
-        "d_end": INITIAL[-1] + 100 + 400,
-        "min_alpha": 10,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, ftl.radar, parameters)
+    r = m.compute(INITIAL, ftl.lead_constant, parameters)
 
+    name = str(N) + "-"
+    for k, v in parameters.items():
+        name += str(k) + str(v) + "-"
 
-    visu.distance_heatmap(r, STEP)
-
-    # visu.anim(r, STEP)
+    visu.density_heatmap(
+        r, STEP, 100, ALPHA_C
+    )  # "traffic-jam-density-" + name + ".jpg")
+    # visu.distance_heatmap(r, STEP, "traffic-jam-distance-" + name + ".jpg")
+    # visu.density_heatmap(r, STEP, 100, ALPHA_C) # "traffic-jam-density-" + name + ".jpg")
+    # visu.display_density(r, STEP, 500, ALPHA_C)
 
 
 def main_accident():
-    ALPHA_INF = 100
+    ALPHA_INF = 300
 
     STEP = 0.2
-    DURATION = 100
+    DURATION = 1200
 
-    MAX_VEL = 40
-    ALPHA_C = 3
-    ALPHA_V = 10
+    MAX_VEL = 37
+    ALPHA_C = 6
+    ALPHA_V = 70
 
-    INITIAL = np.array([ALPHA_INF // 3 * j for j in range(2 * 50)])
+    N = 200
+    INITIAL = np.array([80 * j for j in range(N)])
 
-    parameters_foreward = {
+    parameters_130 = {
         "V": MAX_VEL,
         "alpha_c": ALPHA_C,
-        "alpha_v": ALPHA_C + 10,
+        "alpha_v": ALPHA_V,
         "alpha_inf": ALPHA_INF,
-        "t_start": 10,
-        "t_end": 200,
-        "alpha_min": 0,
+        "t_start": 20,
+        "t_end": 210,
+        "step": STEP,
+        "alpha_min": 70,
     }
 
-
-
-    parameters_backward = {
-        "V": MAX_VEL,
+    parameters_110_70 = {
+        "V": 35,
         "alpha_c": ALPHA_C,
-        "alpha_v": ALPHA_C + 10,
-        "alpha_inf": ALPHA_INF,
+        "alpha_v": 70,
+        "alpha_inf": 150,
         "t_start": 10,
-        "t_end": 100,
-        "alpha_min": 0,
+        "t_end": 190,
+        "step": STEP,
+        "alpha_min": 91,
     }
 
     m = simu.EulerMethod(DURATION, STEP)
-    r = m.compute(INITIAL, ftl.accident, parameters_backward)
 
-    # visu.distance_heatmap(r, STEP)
-
-    #visu.classic_view(np.take(r, np.unique(np.random.randint(0, r.shape[0], 35)) ,axis=0), STEP )
-
-    visu.anim(r, STEP)
+    for p in [parameters_130, parameters_110_70]:
+        r = m.compute(INITIAL, ftl.accident, p)
+        # print(tools.mean_velocity(r, STEP))
+        visu.distance_heatmap(r, STEP)
+        # visu.density_heatmap(r, STEP, 90, ALPHA_C)
 
 
 main_accident()
-# main_radar()
-# main_130()
-# main_110()

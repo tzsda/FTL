@@ -2,7 +2,4 @@
 
 This repository brings together all the simulations carried out during my intership.
 
-## Simulations
-- Start at green light;
-- Radar and slowdown;
-- Roundabout.
+The repository includes an implementation of Euler method, some visualisation tools, some simulations.
